@@ -1,0 +1,1 @@
+var REQUEST_DB = 'http://172.20.0.3:3000/test'; // Para el index.html.

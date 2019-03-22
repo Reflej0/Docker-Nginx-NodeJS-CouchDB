@@ -1,0 +1,48 @@
+version: '3'
+services:
+
+  nginx:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/ #Si se cambia a conf.d surte efecto.
+      - "./api:/src/"
+      #- ./nginx/error:/etc/nginx/error/ al pedo que se yo
+      #- ./nginx/cache/:/etc/nginx/cache/ al pedo que se yo
+    ports:
+      - "80:80"
+      - "443:443"
+    depends_on:
+      - api
+    #command: bash -c "apt-get update && apt-get install nano"
+
+  couchdb:
+    image: couchdb:latest #La ultima imagen de couchdb.
+    restart: always
+    #volumes:
+      #- couchdb-data-volume:/usr/local/var/lib/couchdb
+    ports: 
+      - "5984:5984"
+    #command: bash -c "apt-get update && apt-get install nano"
+    #networks: #Establece la red del docker sobre la que va a corre el contenedor
+     # - app-net
+
+  api:  
+     build: .  #Esto es porque ademas de la imagen quiero ejecutar el dockerfile que hace ciertas cosas antes de levantar la imagen.
+     volumes:    
+         - "./api:/src/"  
+     ports: #El primero es el puerto por donde FINALMENTE, es decir internamente yo codeo para el 3000 pero el docker lo manda al 90.  
+         - "3000:3000"
+     #command: bash -c "apt-get update && apt-get install nano"
+     depends_on: #Esto indica que el contenedor del node se va a iniciar despues del de couchdb establece como una secuencia de inicio.
+      - couchdb
+     #networks: #Establece la red del docker sobre la que va a corre el contenedor
+     # - app-net
+
+#NO LO NECESITO AL FINAL.
+#Volumenes a nivel global, es decir para todos los contenedores, https://stackoverflow.com/questions/54285642/docker-share-volume-between-containers-in-docker-compose
+#volumes:
+#  global:
+
+#NO ES NECESARIO SI TODO VA A ESTAR DENTRO DE LA MISMA RED, APARTE ESTA EL NGINX.
+#networks:
