@@ -1,4 +1,3 @@
-RUN /bin/bash -c "sleep 15"
 FROM node:latest
 RUN mkdir /src
 RUN npm install nodemon -g
