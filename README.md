@@ -54,6 +54,8 @@ se puede realizar mediante Fauxton.
 Sí el proyecto funciona sin problema se debería ver de la siguiente manera
 ![4](https://user-images.githubusercontent.com/26907069/54857864-5db46700-4ce0-11e9-95fa-bfd84ff31572.png)
 
+2. Sí tras la instalación se puede acceder a localhost:3000 pero al intentar acceder a localhost se muestra el error Forbidden, ingresar al contenedor de Nginx `docker exec -it containerid bash` y ejecutar `chmod -R 777 ./src`
+
 ## Extras
 - Se encuentra comentado el archivo **docker-compose.yml**.
 
